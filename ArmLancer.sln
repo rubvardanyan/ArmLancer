@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmLancer.API", "ArmLancer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmLancer.Data", "ArmLancer.Data\ArmLancer.Data.csproj", "{CF69D2F4-4B5E-4C87-B271-222B92F00A81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmLander.UnitTest", "ArmLander.UnitTest\ArmLander.UnitTest.csproj", "{7EBCCC55-FFBE-48D9-9EA3-533C1C627846}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmLancer.UnitTest", "ArmLancer.UnitTest\ArmLancer.UnitTest.csproj", "{171304B4-DE63-4503-B218-49425A9D84F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{CF69D2F4-4B5E-4C87-B271-222B92F00A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF69D2F4-4B5E-4C87-B271-222B92F00A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF69D2F4-4B5E-4C87-B271-222B92F00A81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EBCCC55-FFBE-48D9-9EA3-533C1C627846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EBCCC55-FFBE-48D9-9EA3-533C1C627846}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EBCCC55-FFBE-48D9-9EA3-533C1C627846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EBCCC55-FFBE-48D9-9EA3-533C1C627846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171304B4-DE63-4503-B218-49425A9D84F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171304B4-DE63-4503-B218-49425A9D84F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171304B4-DE63-4503-B218-49425A9D84F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171304B4-DE63-4503-B218-49425A9D84F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
