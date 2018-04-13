@@ -10,9 +10,15 @@ namespace ArmLancer.Data.Context
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder model)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder
+                .MapUser()
+                .MapClient()
+                .MapCategory()
+                .MapJob()
+                .MapJobSubmission();
+            base.OnModelCreating(modelBuilder);
         }
 
         public override int SaveChanges()

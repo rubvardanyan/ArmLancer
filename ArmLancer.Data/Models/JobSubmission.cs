@@ -12,7 +12,7 @@ namespace ArmLancer.Data.Models
         public long JobId { get; set; }
         public virtual Job Job { get; set; }
 
-        public long UserId { get; set; }
-        public virtual User User { get; set; }
+        public long ClientId { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

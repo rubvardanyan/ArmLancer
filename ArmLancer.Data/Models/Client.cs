@@ -17,5 +17,8 @@ namespace ArmLancer.Data.Models
         public virtual User User { get; set; }
 
         public virtual ICollection<Job> Jobs { get; set; }
+        public virtual ICollection<JobSubmission> Submissions { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<Rating> Rates { get; set; }
     }
 }

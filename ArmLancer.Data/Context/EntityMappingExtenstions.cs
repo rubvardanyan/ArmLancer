@@ -15,7 +15,7 @@ namespace ArmLancer.Data.Context
             builder.HasQueryFilter(model => model.Removed == null);
         }
 
-        private static ModelBuilder MapUser(this ModelBuilder modelBuilder)
+        public static ModelBuilder MapUser(this ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<User>();
             builder.MapAbstractTrackingEntityModel();
@@ -31,7 +31,7 @@ namespace ArmLancer.Data.Context
             return modelBuilder;
         }
 
-        private static ModelBuilder MapClient(this ModelBuilder modelBuilder)
+        public static ModelBuilder MapClient(this ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<Client>();
             builder.MapAbstractTrackingEntityModel();
@@ -49,10 +49,22 @@ namespace ArmLancer.Data.Context
                 .WithOne(j => j.Client)
                 .HasForeignKey(j => j.ClientId);
             
+            builder.HasMany(c => c.Submissions)
+                .WithOne(js => js.Client)
+                .HasForeignKey(js => js.ClientId);
+
+            builder.HasMany(c => c.Ratings)
+                .WithOne(r => r.ClientTo)
+                .HasForeignKey(r => r.ClientIdTo);
+            
+            builder.HasMany(c => c.Rates)
+                .WithOne(r => r.ClientFrom)
+                .HasForeignKey(r => r.ClientIdFrom);
+            
             return modelBuilder;
         }
 
-        private static ModelBuilder MapCategory(this ModelBuilder modelBuilder)
+        public static ModelBuilder MapCategory(this ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<Category>();
 
@@ -71,7 +83,7 @@ namespace ArmLancer.Data.Context
             return modelBuilder;
         }
 
-        private static ModelBuilder MapJob(this ModelBuilder modelBuilder)
+        public static ModelBuilder MapJob(this ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<Job>();
 
@@ -88,6 +100,54 @@ namespace ArmLancer.Data.Context
             builder.HasOne(j => j.Category)
                 .WithMany(c => c.Jobs)
                 .HasForeignKey(c => c.CategoryId);
+
+            builder.HasMany(j => j.Submissions)
+                .WithOne(js => js.Job)
+                .HasForeignKey(js => js.JobId);
+            
+            return modelBuilder;
+        }
+
+        public static ModelBuilder MapJobSubmission(this ModelBuilder modelBuilder)
+        {
+            var builder = modelBuilder.Entity<JobSubmission>();
+
+            builder.HasKey(js => js.Id);
+            builder.HasIndex(js => js.JobId);
+            builder.HasIndex(js => js.ClientId);
+
+            builder.Property(js => js.Status).IsRequired();
+            builder.Property(js => js.Text).IsRequired();
+
+            builder.HasOne(js => js.Client)
+                .WithMany(c => c.Submissions)
+                .HasForeignKey(js => js.ClientId);
+
+            builder.HasOne(js => js.Job)
+                .WithMany(j => j.Submissions)
+                .HasForeignKey(js => js.JobId);
+            
+            return modelBuilder;
+        }
+
+        public static ModelBuilder MapRating(this ModelBuilder modelBuilder)
+        {
+            var builder = modelBuilder.Entity<Rating>();
+
+            builder.HasKey(r => r.Id);
+            builder.HasIndex(r => r.ClientIdFrom);
+            builder.HasIndex(r => r.ClientIdTo);
+
+            builder.Property(r => r.Score).IsRequired();
+            builder.Property(r => r.Review);
+
+            builder.HasOne(r => r.ClientFrom)
+                .WithMany(c => c.Rates)
+                .HasForeignKey(r => r.ClientIdFrom);
+            
+            builder.HasOne(r => r.ClientTo)
+                .WithMany(c => c.Ratings)
+                .HasForeignKey(r => r.ClientIdTo);
             
             return modelBuilder;
         }

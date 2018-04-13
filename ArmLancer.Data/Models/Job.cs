@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Data.Models
@@ -8,7 +8,7 @@ namespace ArmLancer.Data.Models
         public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public JobDuration Duration { get; set; }
         
         public long ClientId { get; set; }
