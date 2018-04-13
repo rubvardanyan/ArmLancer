@@ -1,21 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Folder Include="wwwroot\" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
-    </ItemGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArmLancer.Data\ArmLancer.Data.csproj">
+      <Project>{CF69D2F4-4B5E-4C87-B271-222B92F00A81}</Project>
+      <Name>ArmLancer.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

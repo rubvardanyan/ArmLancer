@@ -8,5 +8,7 @@
         OneWeek=4,
         TwoWeeks=5,
         OneMonth=6,
+        ThreeMonths=7,
+        Unlimited=8,
     }
 }
