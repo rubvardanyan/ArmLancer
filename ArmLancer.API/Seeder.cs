@@ -11,11 +11,9 @@ namespace ArmLancer.API
     {
         public static void EnsureSeedData(this ArmLancerDbContext context)
         {
-            context.Database.Migrate();
-            context.Database.EnsureCreated();
             
             context.SeedUsers();
-            //context.SeedCategories();
+            context.SeedCategories();
             
         }
 
