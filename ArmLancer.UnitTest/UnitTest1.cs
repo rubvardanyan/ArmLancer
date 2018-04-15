@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace ArmLander.UnitTest
+namespace ArmLancer.UnitTest
 {
     public class UnitTest1
     {

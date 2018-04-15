@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArmLancer.Data\ArmLancer.Data.csproj">
+      <Project>{CF69D2F4-4B5E-4C87-B271-222B92F00A81}</Project>
+      <Name>ArmLancer.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
