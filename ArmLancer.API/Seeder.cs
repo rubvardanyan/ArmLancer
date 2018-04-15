@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ArmLancer.Core.Utils.Helpers;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
 using ArmLancer.Data.Models.Enums;
@@ -23,7 +24,7 @@ namespace ArmLancer.API
             context.Users.AddRange(new List<User> {
                 new User {
                     UserName = "admin",
-                    Password = "admin",
+                    Password = CryptoHelper.Encrypt("admin"),
                     Role = UserRole.Admin,
                     Client = new Client
                     {
@@ -36,7 +37,7 @@ namespace ArmLancer.API
                 },
                 new User {
                     UserName = "freelancer",
-                    Password = "freelancer",
+                    Password = CryptoHelper.Encrypt("freelancer"),
                     Role = UserRole.FreeLancer,
                     Client = new Client
                     {
@@ -48,7 +49,7 @@ namespace ArmLancer.API
                 },
                 new User {
                     UserName = "employeer",
-                    Password = "employeer",
+                    Password = CryptoHelper.Encrypt("employeer"),
                     Role = UserRole.Employeer,
                     Client = new Client
                     {
