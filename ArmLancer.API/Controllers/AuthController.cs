@@ -1,17 +1,17 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using System.Linq;
 using System.Text;
 using ArmLancer.API.Auth;
-using ArmLancer.API.Models.Auth;
 using ArmLancer.API.Models.Requests;
+using ArmLancer.API.Models.Responses;
+using ArmLancer.API.Utils.Helpers;
 using ArmLancer.API.Utils.Settings;
+using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ArmLancer.API.Controllers
 {
@@ -21,10 +21,11 @@ namespace ArmLancer.API.Controllers
     {
         
         private readonly AuthSettings _authSettings;
+        private readonly IUserService _userService;
 
-        public AuthController( IOptions<AuthSettings> authSettingsAccessor)
+        public AuthController(IUserService userService, IOptions<AuthSettings> authSettingsAccessor)
         {
-            //_userSevice = userService;
+            _userService = userService;
             _authSettings = authSettingsAccessor.Value;
         }
         
@@ -38,7 +39,7 @@ namespace ArmLancer.API.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] AuthRequest request)
         {
-            var user = _userSevice.GetByCredentials(request.UserName, request.Password);
+            var user = _userService.GetByCredentials(request.UserName, request.Password);
             if (user == null)
             {
                 return Unauthorized();
@@ -49,20 +50,46 @@ namespace ArmLancer.API.Controllers
         
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Register([FromBody]RegisterRequest request)
+        public IActionResult RegisterFreeLancer([FromBody]RegisterRequest request)
         {
-            if (_userSevice.All.Any(u => u.UserName == request.UserName))
+            if (_userService.All.Any(u => u.UserName == request.UserName))
             {
                 return Ok(new BaseResponse("User already exists."));
             }
 
-            var user = _userSevice.Register(new User //use extension based/automapper mapping, should discuss
+            var user = _userService.Register(new User
             {
                 Password = CryptoHelper.Encrypt(request.Password),
                 UserName = request.UserName,
-                Role = UserRole.Client,
-                Confirmed = false
+                Role = UserRole.FreeLancer,
+                Client = new Client
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Phone = request.Phone,
+                    Email = request.Email
+                }
             });
+            
+            return Ok(CreateTicketResponse(user));
+        }
+        
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult RegisterEmployeer([FromBody]RegisterRequest request)
+        {
+            if (_userService.All.Any(u => u.UserName == request.UserName))
+            {
+                return Ok(new BaseResponse("User already exists."));
+            }
+
+            var user = _userService.Register(new User
+            {
+                Password = CryptoHelper.Encrypt(request.Password),
+                UserName = request.UserName,
+                Role = UserRole.Employeer
+            });
+            
             return Ok(CreateTicketResponse(user));
         }
     }

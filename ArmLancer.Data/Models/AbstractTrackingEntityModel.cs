@@ -2,7 +2,7 @@
 
 namespace ArmLancer.Data.Models
 {
-    public abstract class AbstractTrackingEntityModel
+    public abstract class AbstractTrackingEntityModel : AbstractEntityModel
     {
         public DateTime Created { get; set; }
 

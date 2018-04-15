@@ -3,9 +3,8 @@ using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Data.Models
 {
-    public class JobSubmission
+    public class JobSubmission : AbstractEntityModel
     {
-        public long Id { get; set; }
         public string Text { get; set; }
         public SubmissionStatus Status { get; set; }
 

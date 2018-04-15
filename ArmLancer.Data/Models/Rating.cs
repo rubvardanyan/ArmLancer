@@ -1,8 +1,7 @@
 ﻿namespace ArmLancer.Data.Models
 {
-    public class Rating
+    public class Rating : AbstractEntityModel
     {
-        public long Id { get; set; }
         public int Score { get; set; }
         public string Review { get; set; } 
         

@@ -14,6 +14,10 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArmLancer.Core\ArmLancer.Core.csproj">
+      <Project>{71FB693A-C01F-447F-B1A2-B99B3811C463}</Project>
+      <Name>ArmLancer.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArmLancer.Data\ArmLancer.Data.csproj">
       <Project>{CF69D2F4-4B5E-4C87-B271-222B92F00A81}</Project>
       <Name>ArmLancer.Data</Name>

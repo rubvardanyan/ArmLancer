@@ -3,9 +3,8 @@ using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Data.Models
 {
-    public class Job
+    public class Job : AbstractEntityModel
     {
-        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

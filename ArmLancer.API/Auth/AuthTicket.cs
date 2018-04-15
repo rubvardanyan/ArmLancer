@@ -1,4 +1,5 @@
 ﻿using ArmLancer.API.Utils.Settings;
+using ArmLancer.Data.Models;
 
 namespace ArmLancer.API.Auth
 {
@@ -12,7 +13,7 @@ namespace ArmLancer.API.Auth
         {
             Token = AuthHelper.GenerateToken(user, settings);
             UserName = user.UserName;
-            Role = user.Client.Role.ToString();
+            Role = user.Role.ToString();
         }
     }
 }
