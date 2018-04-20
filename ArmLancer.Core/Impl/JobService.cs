@@ -4,6 +4,7 @@ using System.Linq;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmLancer.Core.Impl
 {
@@ -15,7 +16,7 @@ namespace ArmLancer.Core.Impl
 
         public IEnumerable<Job> GetByCategoryId(long categoryId)
         {
-            return _context.Jobs.Where(j => j.CategoryId == categoryId);
+            return _context.Jobs.Where(j => j.CategoryId == categoryId).AsNoTracking();
         }
     }
 }

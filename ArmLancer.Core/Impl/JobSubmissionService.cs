@@ -4,6 +4,7 @@ using System.Linq;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmLancer.Core.Impl
 {
@@ -15,12 +16,12 @@ namespace ArmLancer.Core.Impl
 
         public IEnumerable<JobSubmission> GetByJobId(long jobId)
         {
-            return _context.JobSubmissions.Where(js => js.JobId == jobId);
+            return _context.JobSubmissions.Where(js => js.JobId == jobId).AsNoTracking();
         }
 
         public IEnumerable<JobSubmission> GetByClientId(long clinetId)
         {
-            return _context.JobSubmissions.Where(js => js.ClientId == clinetId);
+            return _context.JobSubmissions.Where(js => js.ClientId == clinetId).AsNoTracking();
         }
     }
 }

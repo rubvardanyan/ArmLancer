@@ -19,12 +19,12 @@ namespace ArmLancer.Core.Impl
         public IEnumerable<Category> GetAllRecursive(long? parentId = null)
         {
             return _context.Categories.Where(c => c.ParentId == parentId)
-                .Include(c => c.Children);
+                .Include(c => c.Children).AsNoTracking();
         }
 
         public IEnumerable<Category> GetList(long? parentId)
         {
-            return _context.Categories.Where(c => c.ParentId == parentId);
+            return _context.Categories.Where(c => c.ParentId == parentId).AsNoTracking();
         }
     }
 }
