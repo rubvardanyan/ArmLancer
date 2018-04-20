@@ -1,10 +1,13 @@
 ﻿using System.Text;
+using ArmLancer.API.Utils.Filters;
 using ArmLancer.API.Utils.Settings;
 using ArmLancer.Core.Impl;
 using ArmLancer.Core.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace ArmLancer.API.Utils.Extensions
 {
@@ -41,9 +44,22 @@ namespace ArmLancer.API.Utils.Extensions
             });
         }
 
+        public static void RegisterMvc(this IServiceCollection services)
+        {
+            services.AddMvc(opt =>
+            {
+                    opt.Filters.Add<ValidatorActionFilter>();
+            }).AddJsonOptions(opt =>
+            {
+                opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+        }
+
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
         }
     }
