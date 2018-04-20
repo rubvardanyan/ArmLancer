@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArmLancer.API.Utils.Extensions;
 using ArmLancer.API.Utils.Settings;
 using ArmLancer.Data.Context;
@@ -33,7 +30,7 @@ namespace ArmLancer.API
             
             services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
             
-            services.AddMvc();
+            services.RegisterMvc();
 
             services.AddSwaggerGen(c =>
             {
