@@ -7,6 +7,6 @@ namespace ArmLancer.API.Models.Requests
         [Required]
         public string Name { get; set; }
         
-        public int ParentId { get; set; }
+        public long ParentId { get; set; }
     }
 }
