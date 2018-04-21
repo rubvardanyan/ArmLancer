@@ -4,9 +4,9 @@ using System.Text;
 using ArmLancer.API.Auth;
 using ArmLancer.API.Models.Requests;
 using ArmLancer.API.Models.Responses;
-using ArmLancer.API.Utils.Helpers;
 using ArmLancer.API.Utils.Settings;
 using ArmLancer.Core.Interfaces;
+using ArmLancer.Core.Utils.Helpers;
 using ArmLancer.Data.Models;
 using ArmLancer.Data.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 namespace ArmLancer.API.Controllers
 {
     [Authorize]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/auth")]
     public class AuthController : ControllerBase
     {
         
@@ -37,6 +37,7 @@ namespace ArmLancer.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [Route("token")]
         public IActionResult Login([FromBody] AuthRequest request)
         {
             var user = _userService.GetByCredentials(request.UserName, request.Password);
@@ -50,6 +51,7 @@ namespace ArmLancer.API.Controllers
         
         [AllowAnonymous]
         [HttpPost]
+        [Route("registerFreeLancer")]
         public IActionResult RegisterFreeLancer([FromBody]RegisterRequest request)
         {
             if (_userService.All.Any(u => u.UserName == request.UserName))
@@ -76,6 +78,7 @@ namespace ArmLancer.API.Controllers
         
         [AllowAnonymous]
         [HttpPost]
+        [Route("registerEmployeer")]
         public IActionResult RegisterEmployeer([FromBody]RegisterRequest request)
         {
             if (_userService.All.Any(u => u.UserName == request.UserName))

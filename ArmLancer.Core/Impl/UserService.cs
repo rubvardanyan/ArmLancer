@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using ArmLancer.Core.Utils.Helpers;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
@@ -15,17 +17,18 @@ namespace ArmLancer.Core.Impl
         
         public bool Exists(string userName, string password)
         {
-            throw new System.NotImplementedException();
+            return null == GetByCredentials(userName, password);
         }
 
         public User Register(User user)
         {
-            throw new System.NotImplementedException();
+            Create(user);
+            return user;
         }
 
         public User GetByCredentials(string userName, string password)
         {
-            throw new System.NotImplementedException();
+            return _context.Users.SingleOrDefault(u => u.UserName == userName && u.Password == CryptoHelper.Encrypt(password));
         }
     }
 }

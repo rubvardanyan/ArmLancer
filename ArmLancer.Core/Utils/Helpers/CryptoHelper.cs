@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ArmLancer.API.Utils.Helpers
+namespace ArmLancer.Core.Utils.Helpers
 {
     public class CryptoHelper
     {

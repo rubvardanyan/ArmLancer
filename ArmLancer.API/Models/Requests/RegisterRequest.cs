@@ -11,7 +11,7 @@ namespace ArmLancer.API.Models.Requests
         public string LastName { get; set; }
         
         [Required]
-        [PhoneAttribute]
+        [Phone]
         public string Phone { get; set; }
         
         [Required]

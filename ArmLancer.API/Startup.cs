@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ArmLancer.API.Utils.Extensions;
 using ArmLancer.API.Utils.Settings;
 using ArmLancer.Data.Context;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ArmLancer.API
@@ -33,7 +26,11 @@ namespace ArmLancer.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddOptions(); 
+            
+            services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
+            
+            services.RegisterMvc();
 
             services.AddSwaggerGen(c =>
             {
@@ -50,6 +47,17 @@ namespace ArmLancer.API
                         }
                     }
                  );
+                c.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme
+                    {
+                        In = "header",
+                        Description = "Please enter JWT with Bearer into field",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() },
+                });
             });
             
             services.RegisterCors("CorsPolicy");
