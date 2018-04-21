@@ -15,6 +15,7 @@ namespace ArmLancer.API
         public AutoMapperProfile()
         {
             CreateMapsFor<Category, CategoryRequest>();
+            CreateMapsFor<Job, JobRequest>();
         }
     }
 }
