@@ -90,7 +90,14 @@ namespace ArmLancer.API.Controllers
             {
                 Password = CryptoHelper.Encrypt(request.Password),
                 UserName = request.UserName,
-                Role = UserRole.Employeer
+                Role = UserRole.Employeer,
+                Client = new Client
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Phone = request.Phone,
+                    Email = request.Email
+                }
             });
             
             return Ok(CreateTicketResponse(user));

@@ -30,5 +30,10 @@ namespace ArmLancer.Core.Impl
         {
             return _context.Users.SingleOrDefault(u => u.UserName == userName && u.Password == CryptoHelper.Encrypt(password));
         }
+
+        public User GetByUserName(string userName)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == userName);
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace ArmLancer.API
 {
     public class AutoMapperProfile : Profile
     {
-        public void CreateMapsFor<TSource, TDest>()
+        private void CreateMapsFor<TSource, TDest>()
         {
             CreateMap<TSource, TDest>();
             CreateMap<TDest, TSource>();
@@ -15,6 +15,8 @@ namespace ArmLancer.API
         public AutoMapperProfile()
         {
             CreateMapsFor<Category, CategoryRequest>();
+            CreateMapsFor<Job, JobRequest>();
+            CreateMapsFor<JobSubmission, JobSubmissionRequest>();
         }
     }
 }
