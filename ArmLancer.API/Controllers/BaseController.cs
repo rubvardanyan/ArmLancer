@@ -2,12 +2,15 @@
 using ArmLancer.API.Models.Responses;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ArmLancer.API.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class BaseController<T, TReq> : ControllerBase where T : AbstractEntityModel
     {
         private readonly IServiceProvider _serviceProvider;
@@ -35,6 +38,7 @@ namespace ArmLancer.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{id}")]
         public virtual IActionResult Get(long id)

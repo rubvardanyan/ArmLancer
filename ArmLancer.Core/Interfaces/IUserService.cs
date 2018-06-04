@@ -7,5 +7,6 @@ namespace ArmLancer.Core.Interfaces
         bool Exists(string userName, string password);
         User Register(User user);
         User GetByCredentials(string userName, string password);
+        User GetByUserName(string userName);
     }
 }
