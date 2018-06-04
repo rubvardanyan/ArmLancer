@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using ArmLancer.API.Models.Requests;
 using ArmLancer.API.Models.Responses;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,13 +37,34 @@ namespace ArmLancer.API.Controllers
         }
         
         [HttpPost]
-        public virtual IActionResult Create([FromBody] JobRequest model)
+        public IActionResult Create([FromBody] JobRequest model)
         {
-            var job = _mapper.Map<Job>(model);
             var userName = User.FindFirstValue(ClaimTypes.Name);
+            var job = _mapper.Map<Job>(model);     
             job.ClientId = _userService.GetByUserName(userName).Client.Id;
             var m = _crudService.Create(job);
             return Ok(new DataResponse<Job>(m));
+        }
+
+        [HttpDelete]
+        public IActionResult Remove(long id)
+        {
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var user = _userService.GetByUserName(userName);
+
+            if (user.Role == UserRole.Admin)
+            {
+                _crudService.Delete(id);
+                return Ok();
+            }
+
+            var job = user.Client.Jobs.FirstOrDefault(x => x.Id == id);
+            
+            if (job == null) return Ok(new BaseResponse("You can only delete your jobs"));
+            
+            _crudService.Delete(id);
+            return Ok();
+
         }
 
         [AllowAnonymous]

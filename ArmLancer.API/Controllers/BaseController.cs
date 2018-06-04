@@ -2,6 +2,7 @@
 using ArmLancer.API.Models.Responses;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
