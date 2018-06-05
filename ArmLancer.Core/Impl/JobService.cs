@@ -14,6 +14,11 @@ namespace ArmLancer.Core.Impl
         {
         }
 
+        public bool DoesEmployeerOwnJob(long employeerId, long jobId)
+        {
+            return _context.Jobs.SingleOrDefault(j => j.ClientId == employeerId && j.Id == jobId) != null;
+        }
+
         public IEnumerable<Job> GetByCategoryId(long categoryId)
         {
             return _context.Jobs.Where(j => j.CategoryId == categoryId).AsNoTracking();

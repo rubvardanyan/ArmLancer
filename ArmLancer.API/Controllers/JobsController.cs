@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -16,28 +16,22 @@ namespace ArmLancer.API.Controllers
 {
     [Authorize(Roles="Employeer,Admin")]
     [Route("api/v1/jobs")]
-    public class JobsController : ControllerBase
+    public class JobsController : BaseController<Job, JobRequest>
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly ICrudService<Job> _crudService;
-        private readonly IMapper _mapper;
         private readonly IJobService _jobService;
         private readonly IUserService _userService;
         
         public JobsController(
             IServiceProvider serviceProvider,
             IJobService jobService,
-            IUserService userService)
+            IUserService userService) : base(serviceProvider)
         {
-            _serviceProvider = serviceProvider;
-            _mapper = _serviceProvider.GetService<IMapper>();
-            _crudService = _serviceProvider.GetService<ICrudService<Job>>();
             _jobService = jobService;
             _userService = userService;
         }
         
         [HttpPost]
-        public IActionResult Create([FromBody] JobRequest model)
+        public override IActionResult Create([FromBody] JobRequest model)
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);
             var job = _mapper.Map<Job>(model);     
@@ -47,10 +41,12 @@ namespace ArmLancer.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Remove(long id)
+        public override IActionResult Remove(long id)
         {
-            var userName = User.FindFirstValue(ClaimTypes.Name);
-            var user = _userService.GetByUserName(userName);
+            if (!_jobService.Exists(id))
+                return Ok(new BaseResponse("Job Not Found!"));
+            
+            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
 
             if (user.Role == UserRole.Admin)
             {
@@ -58,9 +54,8 @@ namespace ArmLancer.API.Controllers
                 return Ok();
             }
 
-            var job = user.Client.Jobs.FirstOrDefault(x => x.Id == id);
-            
-            if (job == null) return Ok(new BaseResponse("You can only delete your jobs"));
+            if (!_jobService.DoesEmployeerOwnJob(user.Client.Id, id))
+                return Unauthorized();
             
             _crudService.Delete(id);
             return Ok();
@@ -69,9 +64,10 @@ namespace ArmLancer.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetByCategory(long categoryId)
+        [Route("~/api/v1/categories/{id}/jobs")]
+        public IActionResult GetByCategory(long id)
         {
-            var res = _jobService.GetByCategoryId(categoryId);
+            var res = _jobService.GetByCategoryId(id);
             return Ok(new DataResponse<IEnumerable<Job>>(res));
         }
     }

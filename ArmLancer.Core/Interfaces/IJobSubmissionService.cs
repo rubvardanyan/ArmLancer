@@ -7,5 +7,8 @@ namespace ArmLancer.Core.Interfaces
     {
         IEnumerable<JobSubmission> GetByJobId(long jobId);
         IEnumerable<JobSubmission> GetByClientId(long clinetId);
+        JobSubmission GetByClientAndJobId(long clientId, long jobId);
+        bool AlreadySubmitted(long clientId, long jobId);
+        bool DoesClientHaveSubmission(long clientId, long submissionId);
     }
 }
