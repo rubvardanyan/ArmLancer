@@ -9,6 +9,7 @@ namespace ArmLancer.Data.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public JobDuration Duration { get; set; }
+        public JobStatus Status { get; set; }
         
         public long ClientId { get; set; }
         public virtual Client Client { get; set; }
@@ -17,5 +18,6 @@ namespace ArmLancer.Data.Models
         public virtual Category Category { get; set; }
         
         public virtual ICollection<JobSubmission> Submissions { get; set; }
+        public virtual ICollection<Favorite> Favorites { get; set; }
     }
 }

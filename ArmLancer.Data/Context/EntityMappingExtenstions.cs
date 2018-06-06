@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -90,6 +91,9 @@ namespace ArmLancer.Data.Context
             builder.HasKey(j => j.Id);
             builder.HasIndex(j => j.Title);
             
+            builder.Property(j => j.Status).HasDefaultValue(JobStatus.Waiting);
+            builder.HasIndex(j => j.Status);
+            
             builder.Property(j => j.Description);
             builder.Property(j => j.Price).IsRequired();
 
@@ -116,7 +120,8 @@ namespace ArmLancer.Data.Context
             builder.HasIndex(js => js.JobId);
             builder.HasIndex(js => js.ClientId);
 
-            builder.Property(js => js.Status).IsRequired();
+            builder.Property(js => js.Status).HasDefaultValue(SubmissionStatus.Waiting);
+            builder.HasIndex(js => js.Status);
             builder.Property(js => js.Text).IsRequired();
 
             builder.HasOne(js => js.Client)
@@ -148,6 +153,25 @@ namespace ArmLancer.Data.Context
             builder.HasOne(r => r.ClientTo)
                 .WithMany(c => c.Ratings)
                 .HasForeignKey(r => r.ClientIdTo);
+            
+            return modelBuilder;
+        }
+        
+        public static ModelBuilder MapFavorites(this ModelBuilder modelBuilder)
+        {
+            var builder = modelBuilder.Entity<Favorite>();
+
+            builder.HasKey(f => f.Id);
+            builder.HasIndex(f => f.ClientId);
+            builder.HasIndex(f => f.JobId);
+
+            builder.HasOne(f => f.Client)
+                .WithMany(c => c.Favorites)
+                .HasForeignKey(f => f.ClientId);
+            
+            builder.HasOne(f => f.Job)
+                .WithMany(j => j.Favorites)
+                .HasForeignKey(f => f.JobId);
             
             return modelBuilder;
         }
