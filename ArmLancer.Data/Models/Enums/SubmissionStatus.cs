@@ -2,9 +2,10 @@
 {
     public enum SubmissionStatus
     {
-        Waiting=1,
-        Cancelled=2,
-        Accepted=3,
-        Declined=4,
+        Waiting=0,
+        Cancelled=1,
+        Accepted=2,
+        Declined=3,
+        Ignored=4
     }
 }

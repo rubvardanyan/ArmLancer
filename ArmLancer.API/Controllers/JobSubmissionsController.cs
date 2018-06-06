@@ -41,30 +41,33 @@ namespace ArmLancer.API.Controllers
         
         [HttpGet]
         [Authorize]
-        public IActionResult GetList(long jobId)
+        [Route("~/api/v1/jobs/{id}/submissions")]
+        public IActionResult GetList(long id)
         {
             var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
 
-            if (!_jobService.Exists(jobId))
+            if (!_jobService.Exists(id))
                 return Ok(new BaseResponse("Job Not Found!"));
 
             if (user.Role == UserRole.Admin)
             {
-                return Ok(new DataResponse<JobSubmission>(_jobSubmissionService.GetByJobId(jobId).ToList()));
+                var response = _mapper.Map<JobSubmissionResponse>(_jobSubmissionService.GetByJobId(id).ToList());
+                return Ok(new DataResponse<JobSubmissionResponse>(response));            
             }
             
             if (user.Role == UserRole.Employeer)
             {
-                var job = _jobService.Get(jobId);
+                var job = _jobService.Get(id);
 
                 if (job.ClientId != user.Client.Id)
                     return Unauthorized();
 
-                return Ok(new DataResponse<JobSubmission>(_jobSubmissionService.GetByJobId(jobId).ToList()));
+                var response = _mapper.Map<JobSubmissionResponse>(_jobSubmissionService.GetByJobId(id).ToList());
+                return Ok(new DataResponse<JobSubmissionResponse>(response));
             }
 
-            var submission = _jobSubmissionService.GetByClientAndJobId(user.Client.Id, jobId);
-            return Ok(new DataResponse<JobSubmission>(submission));
+            var submission = _jobSubmissionService.GetByClientAndJobId(user.Client.Id, id);
+            return Ok(new DataResponse<JobSubmissionResponse>(_mapper.Map<JobSubmissionResponse>(submission)));
         }
 
         [HttpPost]
@@ -79,26 +82,73 @@ namespace ArmLancer.API.Controllers
 
             if (_jobSubmissionService.AlreadySubmitted(user.Client.Id, submission.JobId))
                 return Ok(new BaseResponse("Already Submitted!"));
-
+            
+            if (_jobSubmissionService.AlreadyAcceptedOtherSubmit(submission.JobId))
+                return Ok(new BaseResponse("Already Accepted Other Submission!"));
+            
             submission.ClientId = user.Client.Id;
             var m = _crudService.Create(submission);
-            //TODO: Fix response.
-            return Ok(new DataResponse<JobSubmission>(m));
+            return Ok(new DataResponse<JobSubmissionResponse>(_mapper.Map<JobSubmissionResponse>(m)));
         }
 
         [HttpDelete]
         [Authorize(Roles = "FreeLancer")]
-        public IActionResult Remove(long id)
-        {
-            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
-            
+        [Route("{id}/cancel")]
+        public IActionResult Cancel(long id)
+        { 
             if (!_jobSubmissionService.Exists(id))
                 return Ok(new BaseResponse("Submission Not Found!"));
 
+            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
+           
             if (!_jobSubmissionService.DoesClientHaveSubmission(user.Client.Id, id))
                 return Unauthorized();
 
-            _crudService.Delete(id);
+            _jobSubmissionService.CancelSubmission(id);
+            
+            return Ok();
+        }
+        
+        [HttpDelete]
+        [Authorize(Roles = "Employeer")]
+        [Route("{id}/decline")]
+        public IActionResult Decline(long id)
+        {
+            if (!_jobSubmissionService.Exists(id))
+                return Ok(new BaseResponse("Submission Not Found!"));
+            
+            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
+            
+            var submission = _jobSubmissionService.Get(id);
+
+            if (!_jobService.DoesEmployeerOwnJob(user.Client.Id, submission.JobId))
+                return Unauthorized();
+            
+            if (_jobSubmissionService.AlreadyAcceptedOtherSubmit(submission.JobId))
+                return Ok(new BaseResponse("Already Accepted Other Submission!"));
+
+            _jobSubmissionService.DeclineSubmission(id);
+            
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Authorize(Roles = "Employeer")]
+        [Route("{id}/accept")]
+        public IActionResult Accept(long id)
+        {
+            if (!_jobSubmissionService.Exists(id))
+                return Ok(new BaseResponse("Submission Not Found!"));
+            
+            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
+            
+            var submission = _jobSubmissionService.Get(id);
+
+            if (!_jobService.DoesEmployeerOwnJob(user.Client.Id, submission.JobId))
+                return Unauthorized();
+
+            _jobSubmissionService.AcceptSubmission(id);
+            
             return Ok();
         }
     }

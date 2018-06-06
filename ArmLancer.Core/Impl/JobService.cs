@@ -16,7 +16,7 @@ namespace ArmLancer.Core.Impl
 
         public bool DoesEmployeerOwnJob(long employeerId, long jobId)
         {
-            return _context.Jobs.SingleOrDefault(j => j.ClientId == employeerId && j.Id == jobId) != null;
+            return _context.Jobs.Any(j => j.Id == jobId && j.ClientId == employeerId);
         }
 
         public IEnumerable<Job> GetByCategoryId(long categoryId)

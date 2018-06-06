@@ -20,7 +20,7 @@ namespace ArmLancer.API.Controllers
     {
         private readonly IJobService _jobService;
         private readonly IUserService _userService;
-        
+
         public JobsController(
             IServiceProvider serviceProvider,
             IJobService jobService,
@@ -29,7 +29,7 @@ namespace ArmLancer.API.Controllers
             _jobService = jobService;
             _userService = userService;
         }
-        
+
         [HttpPost]
         public override IActionResult Create([FromBody] JobRequest model)
         {
@@ -59,7 +59,6 @@ namespace ArmLancer.API.Controllers
             
             _crudService.Delete(id);
             return Ok();
-
         }
 
         [AllowAnonymous]
