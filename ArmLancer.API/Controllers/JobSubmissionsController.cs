@@ -146,6 +146,9 @@ namespace ArmLancer.API.Controllers
 
             if (!_jobService.DoesEmployeerOwnJob(user.Client.Id, submission.JobId))
                 return Unauthorized();
+            
+            if (_jobSubmissionService.AlreadyAcceptedOtherSubmit(submission.JobId))
+                return Ok(new BaseResponse("Already Accepted Other Submission!"));
 
             _jobSubmissionService.AcceptSubmission(id);
             
