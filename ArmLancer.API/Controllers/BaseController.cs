@@ -2,7 +2,6 @@
 using ArmLancer.API.Models.Responses;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
-using ArmLancer.Data.Models.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +38,7 @@ namespace ArmLancer.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet, ActionName("Get")]
         [Route("{id}")]
         public virtual IActionResult Get(long id)
         {
