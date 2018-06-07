@@ -1,4 +1,5 @@
 ﻿using ArmLancer.API.Models.Requests;
+using ArmLancer.API.Models.Responses;
 using ArmLancer.Data.Models;
 using AutoMapper;
 
@@ -17,6 +18,7 @@ namespace ArmLancer.API
             CreateMapsFor<Category, CategoryRequest>();
             CreateMapsFor<Job, JobRequest>();
             CreateMapsFor<JobSubmission, JobSubmissionRequest>();
+            CreateMapsFor<JobSubmission, JobSubmissionResponse>();
         }
     }
 }

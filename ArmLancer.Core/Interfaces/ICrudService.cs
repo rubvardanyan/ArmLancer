@@ -12,6 +12,8 @@ namespace ArmLancer.Core.Interfaces
         T Update(T entity);
 
         void Delete(long id);
+
+        bool Exists(long id);
         
         IQueryable<T> All { get; }
     }

@@ -4,6 +4,7 @@ using ArmLancer.Core.Utils.Helpers;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArmLancer.Core.Impl
 {
@@ -28,12 +29,13 @@ namespace ArmLancer.Core.Impl
 
         public User GetByCredentials(string userName, string password)
         {
-            return _context.Users.SingleOrDefault(u => u.UserName == userName && u.Password == CryptoHelper.Encrypt(password));
+            return _context.Users.Include(u => u.Client).SingleOrDefault(u =>
+                u.UserName == userName && u.Password == CryptoHelper.Encrypt(password));
         }
 
         public User GetByUserName(string userName)
         {
-            return _context.Users.SingleOrDefault(u => u.UserName == userName);
+            return _context.Users.Include(u => u.Client).SingleOrDefault(u => u.UserName == userName);
         }
     }
 }
