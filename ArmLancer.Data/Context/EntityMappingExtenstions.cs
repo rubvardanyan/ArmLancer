@@ -91,7 +91,6 @@ namespace ArmLancer.Data.Context
             builder.HasKey(j => j.Id);
             builder.HasIndex(j => j.Title);
             
-            builder.Property(j => j.Status).HasDefaultValue(JobStatus.Waiting);
             builder.HasIndex(j => j.Status);
             
             builder.Property(j => j.Description);
@@ -119,9 +118,8 @@ namespace ArmLancer.Data.Context
             builder.HasKey(js => js.Id);
             builder.HasIndex(js => js.JobId);
             builder.HasIndex(js => js.ClientId);
-
-            builder.Property(js => js.Status).HasDefaultValue(SubmissionStatus.Waiting);
             builder.HasIndex(js => js.Status);
+            
             builder.Property(js => js.Text).IsRequired();
 
             builder.HasOne(js => js.Client)

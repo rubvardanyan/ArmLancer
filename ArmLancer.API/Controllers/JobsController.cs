@@ -60,6 +60,26 @@ namespace ArmLancer.API.Controllers
             _crudService.Delete(id);
             return Ok();
         }
+        
+        [HttpGet]
+        [Route("~/api/v1/jobs/{id}/finish")]
+        public IActionResult Finish(long id)
+        {
+            if (!_jobService.Exists(id))
+                return Ok(new BaseResponse("Job Not Found!"));
+            
+            var user = _userService.GetByUserName(User.FindFirstValue(ClaimTypes.Name));
+            
+            if (!_jobService.DoesEmployeerOwnJob(user.Client.Id, id))
+                return Unauthorized();
+
+            if (!_jobService.IsInProgress(id))
+                return Ok( new BaseResponse("You Cannot Finish Non-Started Job!"));
+            
+            _jobService.FinishJob(id);
+            
+            return Ok();
+        }
 
         [AllowAnonymous]
         [HttpGet]

@@ -3,7 +3,6 @@ using System;
 using ArmLancer.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ArmLancer.Data.Migrations
@@ -15,8 +14,8 @@ namespace ArmLancer.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
+                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ArmLancer.Data.Models.Category", b =>
                 {
@@ -70,6 +69,24 @@ namespace ArmLancer.Data.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("ArmLancer.Data.Models.Favorite", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("ClientId");
+
+                    b.Property<long>("JobId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Favorite");
+                });
+
             modelBuilder.Entity("ArmLancer.Data.Models.Job", b =>
                 {
                     b.Property<long>("Id")
@@ -85,6 +102,8 @@ namespace ArmLancer.Data.Migrations
 
                     b.Property<decimal>("Price");
 
+                    b.Property<int>("Status");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -92,6 +111,8 @@ namespace ArmLancer.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("Status");
 
                     b.HasIndex("Title");
 
@@ -117,6 +138,8 @@ namespace ArmLancer.Data.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("JobId");
+
+                    b.HasIndex("Status");
 
                     b.ToTable("JobSubmissions");
                 });
@@ -180,6 +203,19 @@ namespace ArmLancer.Data.Migrations
                     b.HasOne("ArmLancer.Data.Models.User", "User")
                         .WithOne("Client")
                         .HasForeignKey("ArmLancer.Data.Models.Client", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ArmLancer.Data.Models.Favorite", b =>
+                {
+                    b.HasOne("ArmLancer.Data.Models.Client", "Client")
+                        .WithMany("Favorites")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ArmLancer.Data.Models.Job", "Job")
+                        .WithMany("Favorites")
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

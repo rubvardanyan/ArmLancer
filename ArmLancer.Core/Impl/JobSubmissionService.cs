@@ -32,15 +32,14 @@ namespace ArmLancer.Core.Impl
 
         public bool AlreadyAcceptedOtherSubmit(long jobId)
         {
-            return _context.JobSubmissions.Any(js => js.JobId == jobId && js.Status == SubmissionStatus.Accepted);
+            return _context.Jobs.Find(jobId).Status != JobStatus.Waiting;
         }
 
         public void AcceptSubmission(long submissionId)
         {
             var submission = this.Get(submissionId);
-            var submissions = _context.JobSubmissions
-                .Where(js => js.JobId == submission.JobId && js.Status == SubmissionStatus.Waiting).ToList();
-            submissions.ForEach(s => s.Status = SubmissionStatus.Ignored);
+            var job = _context.Jobs.Find(submission.JobId);
+            job.Status = JobStatus.InProgress;
             submission.Status = SubmissionStatus.Accepted;
             _context.SaveChanges();
         }
