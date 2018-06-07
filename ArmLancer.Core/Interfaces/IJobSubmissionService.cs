@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArmLancer.Data.Models;
+using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Core.Interfaces
 {
@@ -7,5 +8,12 @@ namespace ArmLancer.Core.Interfaces
     {
         IEnumerable<JobSubmission> GetByJobId(long jobId);
         IEnumerable<JobSubmission> GetByClientId(long clinetId);
+        JobSubmission GetByClientAndJobId(long clientId, long jobId);
+        bool AlreadySubmitted(long clientId, long jobId);
+        bool DoesClientHaveSubmission(long clientId, long submissionId);
+        bool AlreadyAcceptedOtherSubmit(long jobId);
+        void AcceptSubmission(long submissionId);
+        void DeclineSubmission(long submissionId);
+        void CancelSubmission(long submissionId);
     }
 }

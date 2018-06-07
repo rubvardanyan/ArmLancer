@@ -60,6 +60,8 @@ namespace ArmLancer.API.Utils.Extensions
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IJobSubmissionService, JobSubmissionService>();
             services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
         }
     }

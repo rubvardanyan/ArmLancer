@@ -25,7 +25,8 @@ namespace ArmLancer.API.Auth
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Client.Id.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(settings.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

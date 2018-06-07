@@ -51,6 +51,12 @@ namespace ArmLancer.Core.Impl
             _context.SaveChanges();
         }
 
+        public bool Exists(long id)
+        {
+            var dbEntity = _context.Find<T>(id);
+            return dbEntity != null;
+        }
+
         public IQueryable<T> All => _context.Set<T>();
     }
 }

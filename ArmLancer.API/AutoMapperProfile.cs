@@ -1,4 +1,5 @@
 ﻿using ArmLancer.API.Models.Requests;
+using ArmLancer.API.Models.Responses;
 using ArmLancer.Data.Models;
 using AutoMapper;
 
@@ -6,7 +7,7 @@ namespace ArmLancer.API
 {
     public class AutoMapperProfile : Profile
     {
-        public void CreateMapsFor<TSource, TDest>()
+        private void CreateMapsFor<TSource, TDest>()
         {
             CreateMap<TSource, TDest>();
             CreateMap<TDest, TSource>();
@@ -15,6 +16,9 @@ namespace ArmLancer.API
         public AutoMapperProfile()
         {
             CreateMapsFor<Category, CategoryRequest>();
+            CreateMapsFor<Job, JobRequest>();
+            CreateMapsFor<JobSubmission, JobSubmissionRequest>();
+            CreateMapsFor<JobSubmission, JobSubmissionResponse>();
         }
     }
 }
