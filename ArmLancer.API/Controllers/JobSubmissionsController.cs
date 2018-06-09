@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using ArmLancer.API.Models.Requests;
 using ArmLancer.API.Models.Responses;
+using ArmLancer.API.Utils.Attributes;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
 using ArmLancer.Data.Models.Enums;
@@ -77,7 +78,7 @@ namespace ArmLancer.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "FreeLancer")]
+        [AuthorizeRole(UserRole.FreeLancer)]
         public IActionResult Create([FromBody] JobSubmissionRequest model)
         {
             var clientId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -98,7 +99,7 @@ namespace ArmLancer.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "FreeLancer")]
+        [AuthorizeRole(UserRole.FreeLancer)]
         [Route("{id}/cancel")]
         public IActionResult Cancel(long id)
         { 
@@ -116,7 +117,7 @@ namespace ArmLancer.API.Controllers
         }
         
         [HttpPut]
-        [Authorize(Roles = "Employeer")]
+        [AuthorizeRole(UserRole.Employeer)]
         [Route("{id}/decline")]
         public IActionResult Decline(long id)
         {
@@ -138,7 +139,7 @@ namespace ArmLancer.API.Controllers
         }
         
         [HttpGet]
-        [Authorize(Roles = "Employeer")]
+        [AuthorizeRole(UserRole.Employeer)]
         [Route("{id}/accept")]
         public IActionResult Accept(long id)
         {

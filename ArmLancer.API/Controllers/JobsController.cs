@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using ArmLancer.API.Models.Requests;
 using ArmLancer.API.Models.Responses;
-using ArmLancer.Core.Interfaces;
+ using ArmLancer.API.Utils.Attributes;
+ using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
 using ArmLancer.Data.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArmLancer.API.Controllers
 {
-    [Authorize(Roles="Employeer,Admin")]
+    [AuthorizeRole(UserRole.Employeer, UserRole.Admin)]
     [Route("api/v1/jobs")]
     public class JobsController : BaseController<Job, JobRequest>
     {
