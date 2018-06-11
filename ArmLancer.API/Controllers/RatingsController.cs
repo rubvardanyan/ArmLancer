@@ -1,4 +1,5 @@
 ﻿using System;
+using ArmLancer.API.Models.Requests;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Models;
 using AutoMapper;
@@ -9,10 +10,15 @@ namespace ArmLancer.API.Controllers
 {
     [Authorize]
     [Route("api/v1/ratings")]
-    public class RatingsController: ControllerBase
+    public class RatingsController: BaseController<Rating, RatingRequest>
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly ICrudService<Rating> _crudService;
-        private readonly IMapper _mapper;
+        private readonly IRatingService _ratingService;
+        
+        public RatingsController(
+            IServiceProvider serviceProvider,
+            IRatingService ratingService) : base(serviceProvider)
+        {
+            _ratingService = ratingService;
+        }
     }
 }

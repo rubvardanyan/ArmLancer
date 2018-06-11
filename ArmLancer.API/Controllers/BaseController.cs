@@ -29,7 +29,7 @@ namespace ArmLancer.API.Controllers
         public virtual IActionResult Create([FromBody] TReq model)
         {
             var m = _crudService.Create(_mapper.Map<T>(model));
-            return Ok(new DataResponse<T>(m));
+            return CreatedAtAction(nameof(Get), new {id = m.Id}, m);
         }
 
         [HttpDelete]
@@ -39,8 +39,7 @@ namespace ArmLancer.API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet, ActionName("Get")]
+        [HttpGet]
         [Route("{id}")]
         public virtual IActionResult Get(long id)
         {

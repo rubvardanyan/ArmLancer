@@ -105,7 +105,7 @@ namespace ArmLancer.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rating",
+                name: "Ratings",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -117,15 +117,15 @@ namespace ArmLancer.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rating", x => x.Id);
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rating_Clients_ClientIdFrom",
+                        name: "FK_Ratings_Clients_ClientIdFrom",
                         column: x => x.ClientIdFrom,
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rating_Clients_ClientIdTo",
+                        name: "FK_Ratings_Clients_ClientIdTo",
                         column: x => x.ClientIdTo,
                         principalTable: "Clients",
                         principalColumn: "Id",
@@ -197,13 +197,13 @@ namespace ArmLancer.Data.Migrations
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_ClientIdFrom",
-                table: "Rating",
+                name: "IX_Ratings_ClientIdFrom",
+                table: "Ratings",
                 column: "ClientIdFrom");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_ClientIdTo",
-                table: "Rating",
+                name: "IX_Ratings_ClientIdTo",
+                table: "Ratings",
                 column: "ClientIdTo");
 
             migrationBuilder.CreateIndex(
@@ -218,7 +218,7 @@ namespace ArmLancer.Data.Migrations
                 name: "JobSubmissions");
 
             migrationBuilder.DropTable(
-                name: "Rating");
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Jobs");

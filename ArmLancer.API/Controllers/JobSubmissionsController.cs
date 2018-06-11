@@ -18,8 +18,6 @@ namespace ArmLancer.API.Controllers
     [Route("api/v1/submissions")]
     public class JobSubmissionsController : ControllerBase
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly ICrudService<JobSubmission> _crudService;
         private readonly IMapper _mapper;
         private readonly IJobService _jobService;
         private readonly IJobSubmissionService _jobSubmissionService;
@@ -29,9 +27,7 @@ namespace ArmLancer.API.Controllers
             IJobService jobService,
             IJobSubmissionService jobSubmissionService)
         {
-            _serviceProvider = serviceProvider;
-            _mapper = _serviceProvider.GetService<IMapper>();
-            _crudService = _serviceProvider.GetService<ICrudService<JobSubmission>>();
+            _mapper = serviceProvider.GetService<IMapper>();
             _jobSubmissionService = jobSubmissionService;
             _jobService = jobService;
         }
@@ -94,7 +90,7 @@ namespace ArmLancer.API.Controllers
                 return Ok(new BaseResponse("Already Accepted Other Submission!"));
             
             submission.ClientId = clientId;
-            var m = _crudService.Create(submission);
+            var m = _jobSubmissionService.Create(submission);
             return Ok(new DataResponse<JobSubmissionResponse>(_mapper.Map<JobSubmissionResponse>(m)));
         }
 

@@ -18,6 +18,12 @@ namespace ArmLancer.API.Controllers
         {
             _categoryService = categoryService;
         }
+
+        [AllowAnonymous]
+        public override IActionResult Get(long id)
+        {
+            return base.Get(id);
+        }
         
         [AllowAnonymous]
         [HttpGet]

@@ -14,7 +14,7 @@ namespace ArmLancer.Data.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateTable(
-                name: "Favorite",
+                name: "Favorites",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -24,15 +24,15 @@ namespace ArmLancer.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorite", x => x.Id);
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favorite_Clients_ClientId",
+                        name: "FK_Favorites_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Favorite_Jobs_JobId",
+                        name: "FK_Favorites_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
@@ -50,20 +50,20 @@ namespace ArmLancer.Data.Migrations
                 column: "Status");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorite_ClientId",
-                table: "Favorite",
+                name: "IX_Favorites_ClientId",
+                table: "Favorites",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorite_JobId",
-                table: "Favorite",
+                name: "IX_Favorites_JobId",
+                table: "Favorites",
                 column: "JobId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Favorite");
+                name: "Favorites");
 
             migrationBuilder.DropIndex(
                 name: "IX_JobSubmissions_Status",
