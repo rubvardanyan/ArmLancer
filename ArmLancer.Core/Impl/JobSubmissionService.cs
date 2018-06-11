@@ -37,7 +37,7 @@ namespace ArmLancer.Core.Impl
 
         public void AcceptSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             var job = _context.Jobs.Find(submission.JobId);
             job.Status = JobStatus.InProgress;
             submission.Status = SubmissionStatus.Accepted;
@@ -46,14 +46,14 @@ namespace ArmLancer.Core.Impl
         
         public void DeclineSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             submission.Status = SubmissionStatus.Declined;
             _context.SaveChanges();
         }
         
         public void CancelSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             submission.Status = SubmissionStatus.Cancelled;
             _context.SaveChanges();
         }

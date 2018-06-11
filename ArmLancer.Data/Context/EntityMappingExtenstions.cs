@@ -155,7 +155,7 @@ namespace ArmLancer.Data.Context
             return modelBuilder;
         }
         
-        public static ModelBuilder MapFavorites(this ModelBuilder modelBuilder)
+        public static ModelBuilder MapFavorite(this ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<Favorite>();
 

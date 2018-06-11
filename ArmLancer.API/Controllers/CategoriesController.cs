@@ -18,7 +18,23 @@ namespace ArmLancer.API.Controllers
         {
             _categoryService = categoryService;
         }
+
+        /// <summary>
+        /// Get Category By ID
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <returns>Category</returns>
+        [AllowAnonymous]
+        public override IActionResult Get(long id)
+        {
+            return base.Get(id);
+        }
         
+        /// <summary>
+        /// Get List Of Categories
+        /// </summary>
+        /// <param name="parentId">Parent ID (Not Required)</param>
+        /// <returns>List of Categories</returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetList(long? parentId)

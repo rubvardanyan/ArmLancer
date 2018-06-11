@@ -4,7 +4,6 @@ using ArmLancer.Core.Utils.Helpers;
 using ArmLancer.Data.Context;
 using ArmLancer.Data.Models;
 using ArmLancer.Data.Models.Enums;
-using Microsoft.EntityFrameworkCore;
 
 namespace ArmLancer.API
 {

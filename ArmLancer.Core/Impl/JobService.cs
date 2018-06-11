@@ -17,12 +17,12 @@ namespace ArmLancer.Core.Impl
 
         public bool IsInProgress(long jobId)
         {
-            return this.Get(jobId).Status == JobStatus.InProgress;
+            return Get(jobId).Status == JobStatus.InProgress;
         }
 
         public void FinishJob(long jobId)
         {
-            var job = this.Get(jobId);
+            var job = Get(jobId);
             job.Status = JobStatus.Finished;
             _context.SaveChanges();
         }

@@ -11,6 +11,8 @@ namespace ArmLancer.Data.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobSubmission> JobSubmissions { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         public ArmLancerDbContext(DbContextOptions options) : base(options)
         {
@@ -23,7 +25,9 @@ namespace ArmLancer.Data.Context
                 .MapClient()
                 .MapCategory()
                 .MapJob()
-                .MapJobSubmission();
+                .MapJobSubmission()
+                .MapRating()
+                .MapFavorite();
             base.OnModelCreating(modelBuilder);
         }
 
