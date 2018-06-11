@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ArmLancer.Data.Models;
-using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Core.Interfaces
 {

@@ -18,17 +18,15 @@ namespace ArmLancer.API.Controllers
     [Route("api/v1/jobs")]
     public class JobsController : ControllerBase
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly IMapper _mapper;
         private readonly IJobService _jobService;
-        
+
         public JobsController(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
             _jobService = serviceProvider.GetService<IJobService>();
             _mapper = serviceProvider.GetService<IMapper>();
         }
-        
+
         [HttpPost]
         public IActionResult Create([FromBody] JobRequest model)
         {
@@ -36,15 +34,15 @@ namespace ArmLancer.API.Controllers
             var job = _mapper.Map<Job>(model);
             job.ClientId = long.Parse(clientId);
             var m = _jobService.Create(job);
-            return CreatedAtAction(nameof(Get), new { id = m.Id }, new DataResponse<Job>(m));
+            return CreatedAtAction(nameof(Get), new {id = m.Id}, new DataResponse<Job>(m));
         }
-        
+
         [HttpDelete]
         public IActionResult Remove(long id)
         {
             if (!_jobService.Exists(id))
                 return NotFound(new BaseResponse("Job Not Found!"));
-            
+
             var clientId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             if (!_jobService.DoesEmployeerOwnJob(clientId, id))
@@ -54,12 +52,12 @@ namespace ArmLancer.API.Controllers
 
             if (job.Status != JobStatus.Waiting)
                 return Ok(new BaseResponse("You Cannot Delete Non-Waiting Job."));
-            
+
             _jobService.Delete(id);
-            
+
             return Ok();
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         [Route("{id}")]
@@ -73,27 +71,27 @@ namespace ArmLancer.API.Controllers
 
             return Ok(new DataResponse<Job>(m));
         }
-        
+
         [HttpGet]
         [Route("~/api/v1/jobs/{id}/finish")]
         public IActionResult Finish(long id)
         {
             if (!_jobService.Exists(id))
                 return NotFound(new BaseResponse("Job Not Found!"));
-            
+
             var clientId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            
+
             if (!_jobService.DoesEmployeerOwnJob(clientId, id))
                 return Forbid();
 
             if (!_jobService.IsInProgress(id))
-                return Ok( new BaseResponse("You Cannot Finish Non-Started Job!"));
-            
+                return Ok(new BaseResponse("You Cannot Finish Non-Started Job!"));
+
             _jobService.FinishJob(id);
-            
+
             return Ok();
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         [Route("~/api/v1/categories/{id}/jobs")]

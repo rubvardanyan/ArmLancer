@@ -1,24 +1,20 @@
 ﻿using System;
-using ArmLancer.API.Models.Requests;
 using ArmLancer.Core.Interfaces;
-using ArmLancer.Data.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ArmLancer.API.Controllers
 {
     [Authorize]
     [Route("api/v1/ratings")]
-    public class RatingsController: BaseController<Rating, RatingRequest>
+    public class RatingsController: ControllerBase
     {
         private readonly IRatingService _ratingService;
         
-        public RatingsController(
-            IServiceProvider serviceProvider,
-            IRatingService ratingService) : base(serviceProvider)
+        public RatingsController(IServiceProvider serviceProvider)
         {
-            _ratingService = ratingService;
+            _ratingService = serviceProvider.GetService<IRatingService>();
         }
     }
 }

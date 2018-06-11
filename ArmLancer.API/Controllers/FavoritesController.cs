@@ -26,6 +26,10 @@ namespace ArmLancer.API.Controllers
             _mapper = serviceProvider.GetService<IMapper>();
         }
 
+        /// <summary>
+        /// Get Favorites List
+        /// </summary>
+        /// <returns>List of Favorites For Authorized User</returns>
         [HttpGet]
         public IActionResult GetList()
         {
@@ -34,6 +38,11 @@ namespace ArmLancer.API.Controllers
             return Ok(new DataResponse<IEnumerable<Favorite>>(favorites));
         }
 
+        /// <summary>
+        /// Get Favorite By ID
+        /// </summary>
+        /// <param name="id">Favorite ID</param>
+        /// <returns>Favorite by ID</returns>
         [HttpGet]
         public IActionResult Get(long id)
         {
@@ -49,16 +58,26 @@ namespace ArmLancer.API.Controllers
             return Ok(new DataResponse<Favorite>(m));
         }
 
+        /// <summary>
+        /// Create a Favorite
+        /// </summary>
+        /// <param name="model">FavoriteRequest containing job id</param>
+        /// <returns>Created (201) response with a Location header</returns>
         [HttpPost]
-        public IActionResult Create(FavoriteRequest model)
+        public IActionResult Create([FromBody] FavoriteRequest model)
         {
             var clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var map = _mapper.Map<Favorite>(model);
             map.ClientId = long.Parse(clientId);
             var m = _favoriteService.Create(map);
-            return CreatedAtAction(nameof(Get), m);
+            return CreatedAtAction(nameof(Get), new DataResponse<Favorite>(m));
         }
 
+        /// <summary>
+        /// Delete Favorite By ID
+        /// </summary>
+        /// <param name="id">Favorite ID</param>
+        /// <returns>200 OK Result</returns>
         [HttpDelete]
         public IActionResult Remove(long id)
         {

@@ -33,6 +33,11 @@ namespace ArmLancer.API.Controllers
             return authTicket;
         }
 
+        /// <summary>
+        /// Returns Generated JWT Token
+        /// </summary>
+        /// <param name="request">AuthRequest model</param>
+        /// <returns>Token For Authorize</returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
@@ -47,6 +52,11 @@ namespace ArmLancer.API.Controllers
             return Ok(CreateTicketResponse(user));
         }
         
+        /// <summary>
+        /// Regisers User as a FreeLancer
+        /// </summary>
+        /// <param name="request">RegisterRequest model</param>
+        /// <returns>Token For Authorize</returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("freelancer/register")]
@@ -74,6 +84,11 @@ namespace ArmLancer.API.Controllers
             return Ok(CreateTicketResponse(user));
         }
         
+        /// <summary>
+        /// Regisers User as a Employeer
+        /// </summary>
+        /// <param name="request">RegisterRequest model</param>
+        /// <returns>Token For Authorize</returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("employeer/register")]

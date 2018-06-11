@@ -8,7 +8,7 @@ namespace ArmLancer.API.Utils.Attributes
         public AuthorizeRoleAttribute(params UserRole[] roles)
         {
             var userRoles = string.Join(',', roles.Select(r => r.ToString()));
-            this.Roles = userRoles;
+            Roles = userRoles;
         }
     }
 }
