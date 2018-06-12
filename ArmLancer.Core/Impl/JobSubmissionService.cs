@@ -15,19 +15,19 @@ namespace ArmLancer.Core.Impl
         {
         }
 
-        public JobSubmission GetByClientAndJobId(long clientId, long jobId)
-        {
-            return _context.JobSubmissions.SingleOrDefault(js => js.ClientId == clientId && js.JobId == jobId);
-        }
-
         public bool AlreadySubmitted(long clientId, long jobId)
         {
-            return _context.JobSubmissions.Any(js => js.JobId == jobId && js.ClientId == clientId);
+            return _context.JobSubmissions.Any(js => js.JobId == jobId && js.ClientId == clientId && js.Status != SubmissionStatus.Cancelled);
         }
 
         public bool DoesClientHaveSubmission(long clientId, long submissionId)
         {
             return _context.JobSubmissions.Any(js => js.Id == submissionId && js.ClientId == clientId);
+        }
+        
+        public bool DoesClientHaveWaitingSubmission(long clientId, long submissionId)
+        {
+            return _context.JobSubmissions.Any(js => js.Id == submissionId && js.ClientId == clientId && js.Status == SubmissionStatus.Waiting);
         }
 
         public bool AlreadyAcceptedOtherSubmit(long jobId)
@@ -66,6 +66,11 @@ namespace ArmLancer.Core.Impl
         public IEnumerable<JobSubmission> GetByClientId(long clinetId)
         {
             return _context.JobSubmissions.Where(js => js.ClientId == clinetId).AsNoTracking();
+        }
+        
+        public IEnumerable<JobSubmission> GetByClientAndJobId(long clientId, long jobId)
+        {
+            return _context.JobSubmissions.Where(js => js.ClientId == clientId && js.JobId == jobId).AsNoTracking();
         }
     }
 }

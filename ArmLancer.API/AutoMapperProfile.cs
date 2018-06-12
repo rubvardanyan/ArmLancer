@@ -20,6 +20,7 @@ namespace ArmLancer.API
             CreateMapsFor<JobSubmission, JobSubmissionRequest>();
             CreateMapsFor<JobSubmission, JobSubmissionResponse>();
             CreateMapsFor<Favorite, FavoriteRequest>();
+            CreateMapsFor<Rating, RatingRequest>();
         }
     }
 }

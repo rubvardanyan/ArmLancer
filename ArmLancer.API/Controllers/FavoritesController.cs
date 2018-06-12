@@ -44,6 +44,7 @@ namespace ArmLancer.API.Controllers
         /// <param name="id">Favorite ID</param>
         /// <returns>Favorite by ID</returns>
         [HttpGet]
+        [Route("{id}")]
         public IActionResult Get(long id)
         {
             var clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
