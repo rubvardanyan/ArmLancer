@@ -78,7 +78,7 @@ namespace ArmLancer.API.Controllers
         /// Delete Favorite By ID
         /// </summary>
         /// <param name="id">Favorite ID</param>
-        /// <returns>200 OK Result</returns>
+        /// <returns>204 No Content</returns>
         [HttpDelete]
         public IActionResult Remove(long id)
         {
@@ -92,7 +92,7 @@ namespace ArmLancer.API.Controllers
 
             _favoriteService.Delete(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

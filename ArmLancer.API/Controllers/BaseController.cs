@@ -35,7 +35,7 @@ namespace ArmLancer.API.Controllers
         public virtual IActionResult Remove(long id)
         {
             _crudService.Delete(id);
-            return Ok();
+            return NoContent();
         }
 
         [HttpGet]
