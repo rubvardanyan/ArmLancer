@@ -1,4 +1,5 @@
-﻿using ArmLancer.Data.Models;
+﻿using System.Collections.Generic;
+using ArmLancer.Data.Models;
 
 namespace ArmLancer.Core.Interfaces
 {
@@ -6,5 +7,6 @@ namespace ArmLancer.Core.Interfaces
     {
         bool FreeLancerCanWriteReview(long jobId, long clientIdFrom);
         bool EmployeerCanWriteReview(long jobId, long clientIdFrom);
+        IEnumerable<Rating> GetByClientTo(long clientId);
     }
 }

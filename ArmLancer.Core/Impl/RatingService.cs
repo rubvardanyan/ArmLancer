@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArmLancer.Core.Interfaces;
 using ArmLancer.Data.Context;
@@ -16,6 +17,11 @@ namespace ArmLancer.Core.Impl
         {
         }
 
+        public IEnumerable<Rating> GetByClientTo(long clientId)
+        {
+            return _context.Ratings.Where(r => r.ClientIdTo == clientId).AsNoTracking();
+        }
+        
         public bool FreeLancerCanWriteReview(long jobId, long clientIdFrom)
         {
             return _context.Jobs.Where(j => j.Id == jobId && j.Status == JobStatus.Finished).Join(_context.JobSubmissions, j => j.Id, js => js.JobId,
