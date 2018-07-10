@@ -17,12 +17,12 @@ namespace ArmLancer.Core.Impl
 
         public bool IsInProgress(long jobId)
         {
-            return this.Get(jobId).Status == JobStatus.InProgress;
+            return Get(jobId).Status == JobStatus.InProgress;
         }
 
         public void FinishJob(long jobId)
         {
-            var job = this.Get(jobId);
+            var job = Get(jobId);
             job.Status = JobStatus.Finished;
             _context.SaveChanges();
         }
@@ -30,6 +30,12 @@ namespace ArmLancer.Core.Impl
         public bool DoesEmployeerOwnJob(long employeerId, long jobId)
         {
             return _context.Jobs.Any(j => j.Id == jobId && j.ClientId == employeerId);
+        }
+
+        public long? GetJobFreeLancerId(long jobId)
+        {
+            return _context.JobSubmissions.SingleOrDefault(js =>
+                js.JobId == jobId && js.Status == SubmissionStatus.Accepted)?.ClientId;
         }
 
         public IEnumerable<Job> GetByCategoryId(long categoryId)

@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using ArmLancer.Data.Models.Enums;
+﻿using ArmLancer.Data.Models.Enums;
 
 namespace ArmLancer.Data.Models
 {

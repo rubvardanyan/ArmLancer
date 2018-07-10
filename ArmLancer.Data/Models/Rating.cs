@@ -3,8 +3,11 @@
     public class Rating : AbstractEntityModel
     {
         public int Score { get; set; }
-        public string Review { get; set; } 
-        
+        public string Review { get; set; }
+
+        public long JobId { get; set; }
+        public virtual Job Job { get; set; }
+
         public long ClientIdFrom { get; set; }
         public virtual Client ClientFrom { get; set; }
         

@@ -84,7 +84,7 @@ namespace ArmLancer.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("Favorite");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("ArmLancer.Data.Models.Job", b =>
@@ -153,6 +153,8 @@ namespace ArmLancer.Data.Migrations
 
                     b.Property<long>("ClientIdTo");
 
+                    b.Property<long>("JobId");
+
                     b.Property<string>("Review");
 
                     b.Property<int>("Score");
@@ -163,7 +165,9 @@ namespace ArmLancer.Data.Migrations
 
                     b.HasIndex("ClientIdTo");
 
-                    b.ToTable("Rating");
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("ArmLancer.Data.Models.User", b =>
@@ -255,6 +259,11 @@ namespace ArmLancer.Data.Migrations
                     b.HasOne("ArmLancer.Data.Models.Client", "ClientTo")
                         .WithMany("Ratings")
                         .HasForeignKey("ClientIdTo")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ArmLancer.Data.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

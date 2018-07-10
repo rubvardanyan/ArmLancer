@@ -15,19 +15,19 @@ namespace ArmLancer.Core.Impl
         {
         }
 
-        public JobSubmission GetByClientAndJobId(long clientId, long jobId)
-        {
-            return _context.JobSubmissions.SingleOrDefault(js => js.ClientId == clientId && js.JobId == jobId);
-        }
-
         public bool AlreadySubmitted(long clientId, long jobId)
         {
-            return _context.JobSubmissions.Any(js => js.JobId == jobId && js.ClientId == clientId);
+            return _context.JobSubmissions.Any(js => js.JobId == jobId && js.ClientId == clientId && js.Status != SubmissionStatus.Cancelled);
         }
 
         public bool DoesClientHaveSubmission(long clientId, long submissionId)
         {
             return _context.JobSubmissions.Any(js => js.Id == submissionId && js.ClientId == clientId);
+        }
+        
+        public bool DoesClientHaveWaitingSubmission(long clientId, long submissionId)
+        {
+            return _context.JobSubmissions.Any(js => js.Id == submissionId && js.ClientId == clientId && js.Status == SubmissionStatus.Waiting);
         }
 
         public bool AlreadyAcceptedOtherSubmit(long jobId)
@@ -37,7 +37,7 @@ namespace ArmLancer.Core.Impl
 
         public void AcceptSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             var job = _context.Jobs.Find(submission.JobId);
             job.Status = JobStatus.InProgress;
             submission.Status = SubmissionStatus.Accepted;
@@ -46,14 +46,14 @@ namespace ArmLancer.Core.Impl
         
         public void DeclineSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             submission.Status = SubmissionStatus.Declined;
             _context.SaveChanges();
         }
         
         public void CancelSubmission(long submissionId)
         {
-            var submission = this.Get(submissionId);
+            var submission = Get(submissionId);
             submission.Status = SubmissionStatus.Cancelled;
             _context.SaveChanges();
         }
@@ -66,6 +66,11 @@ namespace ArmLancer.Core.Impl
         public IEnumerable<JobSubmission> GetByClientId(long clinetId)
         {
             return _context.JobSubmissions.Where(js => js.ClientId == clinetId).AsNoTracking();
+        }
+        
+        public IEnumerable<JobSubmission> GetByClientAndJobId(long clientId, long jobId)
+        {
+            return _context.JobSubmissions.Where(js => js.ClientId == clientId && js.JobId == jobId).AsNoTracking();
         }
     }
 }
