@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using ArmLancer.API.Models.Requests;
@@ -62,8 +63,8 @@ namespace ArmLancer.API.Controllers
             // if User is Admin Return all submissions.
             if (userRole == UserRole.Admin)
             {
-                var response = _mapper.Map<JobSubmissionResponse>(_jobSubmissionService.GetByJobId(id).ToList());
-                return Ok(new DataResponse<JobSubmissionResponse>(response));
+                var response = _mapper.Map<IEnumerable<JobSubmissionResponse>>(_jobSubmissionService.GetByJobId(id));
+                return Ok(new DataResponse<IEnumerable<JobSubmissionResponse>>(response));
             }
 
             // if User is Employeer returns submissions only for his jobs.
@@ -74,13 +75,15 @@ namespace ArmLancer.API.Controllers
                 if (job.ClientId != clientId)
                     return Forbid();
 
-                var response = _mapper.Map<JobSubmissionResponse>(_jobSubmissionService.GetByJobId(id).ToList());
-                return Ok(new DataResponse<JobSubmissionResponse>(response));
+                var response =
+                    _mapper.Map<IEnumerable<JobSubmissionResponse>>(_jobSubmissionService.GetByJobId(id));
+                return Ok(new DataResponse<IEnumerable<JobSubmissionResponse>>(response));
             }
 
             // if User is FreeLancer return only his submissions.
             var submission = _jobSubmissionService.GetByClientAndJobId(clientId, id);
-            return Ok(new DataResponse<JobSubmissionResponse>(_mapper.Map<JobSubmissionResponse>(submission)));
+            return Ok(new DataResponse<IEnumerable<JobSubmissionResponse>>(
+                _mapper.Map<IEnumerable<JobSubmissionResponse>>(submission)));
         }
 
         /// <summary>
@@ -126,7 +129,7 @@ namespace ArmLancer.API.Controllers
 
             var clientId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (!_jobSubmissionService.DoesClientHaveSubmission(clientId, id))
+            if (!_jobSubmissionService.DoesClientHaveWaitingSubmission(clientId, id))
                 return Forbid();
 
             _jobSubmissionService.CancelSubmission(id);

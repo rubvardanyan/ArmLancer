@@ -55,7 +55,7 @@ namespace ArmLancer.API.Controllers
 
             _jobService.Delete(id);
 
-            return Ok();
+            return NoContent();
         }
 
         [AllowAnonymous]

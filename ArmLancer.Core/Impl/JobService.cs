@@ -32,6 +32,12 @@ namespace ArmLancer.Core.Impl
             return _context.Jobs.Any(j => j.Id == jobId && j.ClientId == employeerId);
         }
 
+        public long? GetJobFreeLancerId(long jobId)
+        {
+            return _context.JobSubmissions.SingleOrDefault(js =>
+                js.JobId == jobId && js.Status == SubmissionStatus.Accepted)?.ClientId;
+        }
+
         public IEnumerable<Job> GetByCategoryId(long categoryId)
         {
             return _context.Jobs.Where(j => j.CategoryId == categoryId).AsNoTracking();
